@@ -56,6 +56,44 @@ services:
       --join=roach1:26357,roach2:26357,roach3:26357
     volumes:
       - roach3:/cockroach/cockroach-data
+  roach4:
+    image: cockroachdb/cockroach:v25.4.2
+    container_name: roach4
+    networks:
+      - roachnet
+    hostname: roach4
+    ports:
+      - "26260:26260"
+      - "8083:8083"
+    command: >-
+      start
+      --advertise-addr=roach4:26357
+      --http-addr=roach4:8083
+      --listen-addr=roach4:26357
+      --sql-addr=roach4:26260
+      --insecure
+      --join=roach1:26357,roach2:26357,roach3:26357
+    volumes:
+      - roach4:/cockroach/cockroach-data
+  roach5:
+    image: cockroachdb/cockroach:v25.4.2
+    container_name: roach5
+    networks:
+      - roachnet
+    hostname: roach5
+    ports:
+      - "26261:26261"
+      - "8084:8084"
+    command: >-
+      start
+      --advertise-addr=roach5:26357
+      --http-addr=roach5:8084
+      --listen-addr=roach5:26357
+      --sql-addr=roach5:26261
+      --insecure
+      --join=roach1:26357,roach2:26357,roach3:26357
+    volumes:
+      - roach5:/cockroach/cockroach-data
   init:
     networks:
       - roachnet
@@ -77,3 +115,5 @@ volumes:
   roach1:
   roach2:
   roach3:
+  roach4:
+  roach5:
