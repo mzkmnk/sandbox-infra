@@ -15,42 +15,42 @@ spec:
     spec:
       terminationGracePeriodSeconds: 60
       containers:
-      - name: cockroachdb
-        image: cockroachdb/cockroach:v25.4.2
-        imagePullPolicy: IfNotPresent
-        resources:
-          limits:
-            memory: "2Gi"
-            cpu: "1"
-          requests:
-            memory: "1Gi"
-            cpu: "500m"
-        ports:
-        - containerPort: 26257
-          name: grpc
-        - containerPort: 8080
-          name: http
-        command:
-          - "/bin/bash"
-          - "-ecx"
-          - |
-            exec /cockroach/cockroach start \
-            --logtostderr \
-            --insecure \
-            --advertise-host=$(hostname -f) \
-            --http-addr=0.0.0.0 \
-            --join=cockroachdb-0.cockroachdb,cockroachdb-1.cockroachdb,cockroachdb-2.cockroachdb \
-            --cache=512Mi \
-            --max-sql-memory=512Mi
-        volumeMounts:
-        - name: datadir
-          mountPath: /cockroach/cockroach-data
+        - name: cockroachdb
+          image: cockroachdb/cockroach:v25.4.2
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 26257
+              name: grpc
+            - containerPort: 8080
+              name: http
+          command:
+            - "/bin/bash"
+            - "-ecx"
+            - |
+              exec /cockroach/cockroach start \
+              --logtostderr \
+              --insecure \
+              --advertise-host=$(hostname -f) \
+              --http-addr=0.0.0.0 \
+              --join=cockroachdb-0.cockroachdb,cockroachdb-1.cockroachdb,cockroachdb-2.cockroachdb \
+              --cache=512Mi \
+              --max-sql-memory=512Mi
+          volumeMounts:
+            - name: datadir
+              mountPath: /cockroach/cockroach-data
   volumeClaimTemplates:
-  - metadata:
-      name: datadir
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "local-path"
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: datadir
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "local-path"
+        resources:
+          requests:
+            storage: 1Gi
