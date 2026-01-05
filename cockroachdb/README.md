@@ -1,9 +1,21 @@
 ### 起動方法
 
 ```bash
-docker compose up -d roach1 roach2 roach3
+kubectl apply -f service.yaml
 ```
 
 ```bash
-docker compose run --rm init
+kubectl apply -f statefulset.yaml
+```
+
+```bash
+kubectl get pods -w
+```
+
+```bash
+kubectl apply -f cluster-init.yaml
+```
+
+```bash
+kubectl get pods
 ```
